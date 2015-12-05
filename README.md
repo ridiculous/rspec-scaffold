@@ -16,6 +16,8 @@ rake rspec:scaffold[lib]
 
 ## Example
 
+Given:
+
 ```ruby
 # app/models/ability.rb
 class Ability
@@ -32,6 +34,10 @@ class Ability
     end
   end
 end
+```
+
+```bash
+rake rspec:scaffold[app/models/ability.rb]
 ```
 
 Outputs:
