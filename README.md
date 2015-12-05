@@ -1,6 +1,7 @@
 # RSpec::Scaffold
 
-Generates RSpec scaffolding for existing code. Takes either a file or a directory.
+Generates RSpec scaffolding for existing code. Helps you write tests by showing you what you should be testing, which, at 
+a minimum, are conditions and changes to state (ivar assignments).
 
 ## Installation
 
@@ -9,6 +10,8 @@ gem 'rspec-scaffold'
 ```
 
 ## Usage
+
+Takes either a file or a directory.
 
 ```bash
 rake rspec:scaffold[lib]
