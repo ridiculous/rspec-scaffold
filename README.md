@@ -1,4 +1,4 @@
-# RSpec::Scaffold
+# RSpec Scaffolding [![Build Status](https://travis-ci.org/ridiculous/rspec-scaffold.svg)](https://travis-ci.org/ridiculous/rspec-scaffold)
 
 Generates RSpec scaffolding for existing code. Helps you write tests by showing you what you should be testing, 
 which are conditions and changes to state (at a minimum).
