@@ -46,18 +46,14 @@ describe RSpec::Scaffold::ConditionExhibit do
       let(:txt) { 'File.exists?("file.rb")' }
 
       it 'escapes the double qoutes' do
-        expect(subject.escape(txt)).to eq "\"File.exists?(\\\"file.rb\\\")\""
+        expect(eval subject.escape(txt)).to eq "File.exists?('file.rb')"
       end
 
       context 'when the string has interpolation' do
         let(:txt) { 'File.exists?("#{file}.rb") and name != \'foo\'' }
 
         it 'escapes interpolation' do
-          expect(subject.escape(txt)).to eq "\"File.exists?(\\\"\\\#{file}.rb\\\") and name != 'foo'\""
-        end
-
-        it 'returns a valid string object' do
-          expect(eval(subject.escape(txt))).to eq "File.exists?(\"\#{file}.rb\") and name != 'foo'"
+          expect(eval(subject.escape(txt))).to eq "File.exists?('\#{file}.rb') and name != 'foo'"
         end
 
         context 'when interpolation is multiline' do
@@ -65,14 +61,14 @@ describe RSpec::Scaffold::ConditionExhibit do
 file}.rb")' }
 
           it 'correctly escapes the interpolation' do
-            expect(subject.escape(txt)).to eq "\"File.exists?(\\\"\\\#{\nfile}.rb\\\")\""
+            expect(eval subject.escape(txt)).to eq "File.exists?('\#{\nfile}.rb')"
           end
 
           context 'when more complicated interpolation' do
             let(:txt) { 'File.exists?("#{file + \'name\'}.rb")' }
 
             it 'correctly escapes the interpolation' do
-              expect(subject.escape(txt)).to eq "\"File.exists?(\\\"\\\#{file + 'name'}.rb\\\")\""
+              expect(eval(subject.escape(txt))).to eq "File.exists?('\#{file + 'name'}.rb')"
             end
           end
 
@@ -80,7 +76,7 @@ file}.rb")' }
             let(:txt) { 'File.exists?("#{file}.rb") and "#{name} #{age}" == "foo 25"' }
 
             it 'correctly escapes all interpolations' do
-              expect(subject.escape(txt)).to eq "\"File.exists?(\\\"\\\#{file}.rb\\\") and \\\"\\\#{name} \\\#{age}\\\" == \\\"foo 25\\\"\""
+              expect(eval subject.escape(txt)).to eq "File.exists?('\#{file}.rb') and '\#{name} \#{age}' == 'foo 25'"
             end
           end
         end
@@ -101,8 +97,8 @@ file}.rb")' }
       context 'when the string is already escaped' do
         let(:txt) { Ruby2Ruby.new.process RubyParser.new.parse('errors << %Q(Couldn\'t find an option with name "#{name}")') }
 
-        it 'returns a valid string object' do
-          expect(eval(subject.escape(txt))).to eq "(errors << \"Couldn't find an option with name \"\#{name}\"\")"
+        it "returns a valid string object" do
+          expect(eval(subject.escape(txt))).to eq "(errors << 'Couldn't find an option with name '\#{name}'')"
         end
       end
 

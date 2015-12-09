@@ -68,14 +68,14 @@ describe Report do
     it "assigns @duder" do
     end
 
-    context "unless (message[:verification_code_id] or message[\\"verification_code_id\\"])" do
+    context "unless (message[:verification_code_id] or message['verification_code_id'])" do
       before {}
 
       it "returns []" do
       end
     end
 
-    context "when (message[:verification_code_id] or message[\\"verification_code_id\\"])" do
+    context "when (message[:verification_code_id] or message['verification_code_id'])" do
       before {}
     end
     context "when (1 == 2)" do
@@ -154,20 +154,20 @@ describe Extensions do
     context "when coupon.nil?" do
       before {}
 
-      it "returns fail(Error, \\"Couldn't find the coupon\\")" do
+      it "returns fail(Error, 'Couldn't find the coupon')" do
       end
 
       context "when coupon.expired?" do
         before {}
 
-        it "returns fail(Error, \\"Coupon has expired\\")" do
+        it "returns fail(Error, 'Coupon has expired')" do
         end
       end
 
       context "when coupon.inactive?" do
         before {}
 
-        it "returns fail(Error, \\"Coupon is not activated\\")" do
+        it "returns fail(Error, 'Coupon is not activated')" do
         end
       end
       context "not coupon.inactive?" do
@@ -179,7 +179,7 @@ describe Extensions do
       context "when coupon.inactive?" do
         before {}
 
-        it "returns fail(Error, \\"Coupon is not activated\\")" do
+        it "returns fail(Error, 'Coupon is not activated')" do
         end
       end
 
@@ -194,7 +194,7 @@ describe Extensions do
     context "when coupon.cannot_use?" do
       before {}
 
-      it "returns fail(Error, \\"Coupon has been used up\\")" do
+      it "returns fail(Error, 'Coupon has been used up')" do
       end
     end
   end

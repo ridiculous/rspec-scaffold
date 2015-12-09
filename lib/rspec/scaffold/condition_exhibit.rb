@@ -65,8 +65,7 @@ module RSpec
 
       def escape(txt)
         txt.gsub!(/#\{(.*?)\}/m, '\#{\1}') # escape interpolations
-        txt.gsub!(/"/m, '\"') # escape double quotes
-        txt.gsub!(/\\\\/m, '\\') # replace multiple escapes with a single escape
+        txt.gsub!(/"/m, "'") # replace double quotes with single quotes
         %Q("#{truncate(txt)}")
       end
 
