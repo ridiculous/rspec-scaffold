@@ -6,3 +6,7 @@ gemspec
 group :development, :test do
   gem 'byebug'
 end
+
+group :test do
+  gem 'rake' # for ogb TravisCI
+end
