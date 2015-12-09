@@ -3,7 +3,7 @@
 Generates RSpec scaffolding for existing code. Helps you write tests by showing you what you should be testing, 
 which are conditions and changes to state (at a minimum).
 
-## Installation
+## Installation (requires Ruby 1.9.3+)
 
 ```ruby
 gem 'rspec-scaffold'
