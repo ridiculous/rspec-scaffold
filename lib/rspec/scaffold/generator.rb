@@ -19,7 +19,7 @@ module RSpec
       def perform
         indent = (' ' * 2)
         second_indent = indent * 2
-        lines = [%Q(require "spec_helper"), %Q(), %Q(describe #{const} do)]
+        lines = [%Q(require "#{helper_file}"), %Q(), %Q(describe #{const} do)]
         if class?
           initialization_args.each do |arg|
             lines << %Q(#{indent}let(:#{arg.to_s.sub(/^[&*]/, '')}) {})
@@ -43,6 +43,14 @@ module RSpec
         end
         lines << %Q(end) << %Q()
         lines
+      end
+
+      def helper_file
+        if defined?(::Rails)
+          'rails_helper'
+        else
+          'spec_helper'
+        end
       end
     end
   end
