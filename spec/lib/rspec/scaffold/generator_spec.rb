@@ -275,6 +275,14 @@ end
     it 'returns the Ruby constant defined in the given file' do
       expect(subject.const).to eq Report
     end
+
+    context 'when the constant is namespaced' do
+      let(:file) { FIXTURE_ROOT.join('mixins/helpers/date_helper.rb') }
+
+      it 'returns the correct constant' do
+        expect(subject.const).to eq Mixins::Helpers::DateHelper
+      end
+    end
   end
 
   describe '#name' do

@@ -13,7 +13,7 @@ module RSpec
       end
 
       def const
-        @const ||= Kernel.const_get(name)
+        @const ||= name.split('::').inject(Kernel) { |k, part| k.const_get part }
       end
 
       def perform
