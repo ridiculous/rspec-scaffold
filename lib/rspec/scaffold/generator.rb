@@ -1,7 +1,6 @@
 module RSpec
   module Scaffold
     class Generator
-
       # Generates an array of lines that can be joined into an RSpec file based
       #
       # @param [Ryan,#name,#funcs,#initialization_args,#class?,#module?] parser object that is used to build the rspec file

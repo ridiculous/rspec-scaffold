@@ -1,5 +1,4 @@
-require 'spec_helper'
-
+# rspec spec/lib/rspec/scaffold/runner_spec.rb
 describe RSpec::Scaffold::Runner do
   describe '#generate_spec' do
     let(:input) { FIXTURE_ROOT.join('multiple_args.rb') }
@@ -44,4 +43,5 @@ end
       end
     end
   end
+
 end

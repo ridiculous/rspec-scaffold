@@ -8,15 +8,46 @@ Helps you write tests by showing you what you should be testing, which are condi
 Requires Ruby >= 1.9.3
 
 ```ruby
-gem 'rspec-scaffold'
+gem 'rspec-scaffold', '~> 2.0.0.beta1'
 ```
 
-## Usage
+## Caveats
+Works best if used from within a Rails app root and if the project has the spec/ directory (it should!).  
 
-Takes either a file or a directory.
+## Usage
+The gem provides a command line utility `rspec-scaffold` for working with existing files, and simple-to-use module methods for programmatic use.
+
+### The CLI
+Only operates on filepaths.  
 
 ```bash
-rake rspec:scaffold[lib]
+# file in -> file out
+rspec-scaffold "path/to/code.rb"
+
+# or for a directory
+rspec-scaffold -d "path/to/code/directory"
+
+# output to STDOUT instead of file
+rspec-scaffold -t "path/to/code.rb"
+```
+
+### The methods
+
+Three scenarios are supported:
+
+#### 1. Provide ruby code -> get scaffold string (not supported by CLI since it would be cumbersome)
+```rb
+  RSpec::Scaffold.testify_text(text)  
+```
+
+#### 2. Provide ruby code file(s) -> get scaffold string
+```rb
+  RSpec::Scaffold.testify_file(filepath, :to_text)
+```
+
+#### 3. Provide ruby code file(s) -> get scaffold file(s)
+```rb
+  RSpec::Scaffold.testify_file(filepath, :to_file)  
 ```
 
 ## Example
@@ -42,43 +73,33 @@ end
 ```
 
 ```bash
-rake rspec:scaffold[app/models/ability.rb]
+rspec-scaffold "path/to/code.rb"
 ```
 
-Outputs:
+Outputs to 'spec/models/ability_spec.rb':
 
 ```ruby
-# spec/models/ability_spec.rb
-require "spec_helper"
-
+# rspec spec/models/ability_spec.rb
 describe Ability do
+  klass = Ability
   let(:user) {}
-
-  subject { described_class.new user }
 
   describe "#initialize" do
     context "when user.admin?" do
-      before {}
+      xit "should " do
+        expect(0).to eq 1
+      end
     end
 
     context "unless user.admin?" do
-      before {}
+      xit "should " do
+        expect(0).to eq 1
+      end
     end
   end
+
 end
 ```
-
-## Version 2.0 notes
-Started from [this commit. v1.0](https://github.com/Epigene/rspec-scaffold/commit/a029d8db72723e59b9365681baa0b65b903db7bf) on 2017-02-11.  
-
-Development goals:
-1. Create a command-line tool that takes in relative file (or directory) path as argument and creates spec file(s) in /spec directory with [thor](https://github.com/erikhuda/thor).
-2. Update scaffold generator to produce Rails Controller specs (custom action describe formatting for CRUD actions at least).  
-3. Update scaffold generator to produce Rails Model specs.
-  3.1 Support for scopes
-  3.2 Support for class methods
-  3.3 Support for instance methods  
-  3.4 Support for module-defined class methods (via extend ActiveSupport::Concern and module ClassMethods)
 
 ## Development
 

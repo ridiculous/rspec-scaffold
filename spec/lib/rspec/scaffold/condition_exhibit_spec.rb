@@ -1,5 +1,4 @@
-require 'spec_helper'
-
+# rspec spec/lib/rspec/scaffold/condition_exhibit_spec.rb
 describe RSpec::Scaffold::ConditionExhibit do
   let(:sexp) { RubyParser.new.parse "return [] unless message[:verification_code_id]" }
   let(:condition) { Ryan::Condition.new sexp }
