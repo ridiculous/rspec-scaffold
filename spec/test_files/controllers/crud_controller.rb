@@ -1,5 +1,5 @@
-# app/controllers/controller.rb
-class Controller
+# app/controllers/crud_controller.rb
+class CrudController
 
   # GET action
   def index
@@ -22,7 +22,7 @@ class Controller
   end
 
   # PATCH/PUT action
-  def update  
+  def update
   end
 
   # DELETE action
