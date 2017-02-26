@@ -1,8 +1,9 @@
 require "pathname"
 require "delegate"
-require "rspec"
+#require "rspec"
 require "ryan"
 require "highline"
+require 'pry'
 
 module RSpec
   module Scaffold
