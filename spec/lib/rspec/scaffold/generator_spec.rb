@@ -20,6 +20,14 @@ describe RSpec::Scaffold::Generator do
       end
     end
 
+    context "when given a real-world model" do
+      let(:file) { FIXTURE_ROOT.join('extensions.rb') }
+
+      it "should not hang up on calls to include etc" do
+        expect(subject.perform.join("\n")).to eq ""
+      end
+    end
+
     context 'when given a file with a long if/elsif/else' do
       let(:file) { FIXTURE_ROOT.join('extensions.rb') }
 

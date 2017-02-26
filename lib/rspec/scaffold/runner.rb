@@ -1,6 +1,8 @@
 module RSpec
   module Scaffold
     class Runner
+      # this class serves as a wrapper for Generator class in that it handles receiving files as input.
+
       attr_reader :file
 
       # @param [Pathname] file
@@ -15,28 +17,45 @@ module RSpec
         ruby_files.each do |ruby_file|
           case mode
           when :to_file
-            produce_scaffold_file
+            produce_scaffold_file(ruby_file)
           else # for :to_text and as a safe fallback
-            # TODO
-            raise "NotImplementedYet"
+            produce_stdout_output(ruby_file)
           end
-
         end
+
+        return true
       end
 
       private
 
-        def produce_scaffold_file
+        def produce_scaffold_file(ruby_file)
           rspec_file = Pathname.new(spec_file(ruby_file))
           spec_file_path = rspec_file.to_s[%r|/(spec/.+)|, 1]
-          next if rspec_file.exist?.tap { |exists| log "- #{spec_file_path} - already exists", :gray if exists }
+
+          return nil if rspec_file.exist?.tap { |exists| log("- #{spec_file_path} - already exists", :gray) if exists }
+
           spec = generate_spec(ruby_file)
-          next unless spec
+          return nil if spec.size == 0
+
           log "+ #{spec_file_path}"
           FileUtils.mkdir_p(rspec_file.parent)
           File.open(rspec_file, 'wb') do |f|
             f << spec.join("\n")
           end
+        end
+
+        def produce_stdout_output(ruby_file)
+          rspec_file = Pathname.new(spec_file(ruby_file))
+          spec_file_path = rspec_file.to_s[%r|/(spec/.+)|, 1]
+          spec = generate_spec(ruby_file)
+
+          return nil if spec.size == 0
+
+          log "=== #{spec_file_path} ==="
+          puts spec.join("\n")
+          log "========================="
+
+          return true
         end
 
         def generate_spec(ruby_file)
@@ -45,10 +64,11 @@ module RSpec
             spec.perform
           else
             log "- #{ruby_file} - no methods", :gray
-            nil
+            []
           end
         rescue => e
           log "! #{ruby_file} - #{e.inspect.gsub /^#<|>$/, ''}", :red
+          return []
         end
 
         def ruby_files
@@ -69,7 +89,7 @@ module RSpec
         end
 
         def specify(file_name)
-          file_name.gsub(%r'.rb\z', '_spec.rb')
+          return Pathname.new(file_name.to_s.gsub(%r'.rb\z', '_spec.rb'))
         end
 
         def spec_path

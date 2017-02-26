@@ -15,10 +15,14 @@ SimpleCov.start do
 end
 
 require 'rspec/scaffold'
+
 FIXTURE_ROOT = Pathname.new(File.join File.expand_path('..', __FILE__), 'fixtures')
+
+# requiring fixture code?
 Dir[
   FIXTURE_ROOT.join('**', '*.rb')
 ].sort.each &method(:require)
+
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
   # config.filter_run focus: true
