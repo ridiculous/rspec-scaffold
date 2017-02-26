@@ -1,9 +1,4 @@
 #!/usr/bin/env ruby
 
-# require '../lib/rspec/scaffold'
-puts
-#Dir[File.dirname(__FILE__) + '../lib/rspec/scaffold.rb'].each {|file| puts file; require file }
-
-require File.expand_path('../../lib/rspec/scaffold.rb', __FILE__).to_s
-
-RSpec::Scaffold::Cli.start #(ARGV)
+require 'rspec/scaffold'
+RSpec::Scaffold::Cli.start
