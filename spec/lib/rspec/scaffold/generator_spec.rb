@@ -8,7 +8,17 @@ describe RSpec::Scaffold::Generator do
       expect(subject.perform(ryan).join("\n")).to eq report_rb_test_scaffold
     end
 
-    context 'given a file with a long if/elsif/else' do
+    context "when given simple code as string" do
+      let(:file) { FIXTURE_ROOT.join('report.rb') }
+      let(:text) { File.read(FIXTURE_ROOT.join('report.rb')) }
+
+      it "should return the same correct scaffold that would be generated for a file argument" do
+        expect(described_class.new(text).perform.join("\n")).to eq report_rb_test_scaffold
+        expect(described_class.new(text).perform).to eq described_class.new(file).perform
+      end
+    end
+
+    context 'when given a file with a long if/elsif/else' do
       let(:file) { FIXTURE_ROOT.join('extensions.rb') }
 
       it 'returns an array of lines for the file' do

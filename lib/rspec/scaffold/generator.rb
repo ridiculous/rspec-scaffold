@@ -29,8 +29,10 @@ module RSpec
           end
           lines << %Q(#{indent}end) << %Q()
         end
+
         lines << %Q(end) << %Q()
-        lines
+
+        return lines
       end
     end
   end

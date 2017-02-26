@@ -6,11 +6,14 @@ require "highline"
 
 module RSpec
   module Scaffold
-    autoload :Version, "rspec/scaffold/version"
-    autoload :Runner, "rspec/scaffold/runner"
-    autoload :Generator, "rspec/scaffold/generator"
-    autoload :TextGenerator, "rspec/scaffold/text_generator"
+    autoload :Cli, "rspec/scaffold/cli"
     autoload :ConditionExhibit, "rspec/scaffold/condition_exhibit"
+    autoload :Generator, "rspec/scaffold/generator"
+    autoload :Runner, "rspec/scaffold/runner"
+    autoload :Version, "rspec/scaffold/version"
+
+    # loads gem's rake tasks in main app
+    # Dir["#{RSpec::Scaffold.root}" + "lib/rspec/scaffold/tasks/**/*.rake"].each { |ext| load ext } if defined?(Rake)
 
     def self.helper_file
       if defined?(::Rails) && RSpec::Core::Version::STRING.to_s >= '3'
@@ -29,17 +32,14 @@ module RSpec
 
     # RSpec::Scaffold.testify_text(text)
     def self.testify_text(text)
-      test_scaffold = RSpec::Scaffold::TextGenerator.new(text).perform
+      test_scaffold = RSpec::Scaffold::Generator.new(text).perform
       return test_scaffold
     end
 
     def self.root
-      current_file_name = __FILE__
-      path_to_current_file = File.expand_path(current_file_name)
-      root_path = Pathname.new(path_to_current_file) + "../../.."
-
-      return root_path
+      Pathname.new File.expand_path('../../..', __FILE__)
     end
+
   end
 end
 

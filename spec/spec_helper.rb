@@ -15,7 +15,7 @@ SimpleCov.start do
 end
 
 require 'rspec/scaffold'
-FIXTURE_ROOT = Pathname.new(File.join File.expand_path('..', __FILE__), 'test_files')
+FIXTURE_ROOT = Pathname.new(File.join File.expand_path('..', __FILE__), 'fixtures')
 Dir[
   FIXTURE_ROOT.join('**', '*.rb')
 ].sort.each &method(:require)
