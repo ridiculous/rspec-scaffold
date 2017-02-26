@@ -8,7 +8,7 @@ Helps you write tests by showing you what you should be testing, which are condi
 Requires Ruby >= 1.9.3
 
 ```ruby
-gem 'rspec-scaffold', '~> 2.0.0.beta1'
+gem 'rspec-scaffold', '~> 2.0.0.beta1', require: false
 ```
 
 ## Caveats
@@ -18,7 +18,13 @@ Works best if used from within a Rails app root and if the project has the spec/
 The gem provides a command line utility `rspec-scaffold` for working with existing files, and simple-to-use module methods for programmatic use.
 
 ### The CLI
-Only operates on filepaths.  
+Only operates on paths.
+
+__Setup__
+
+```rb
+bundle binstubs rspec-scaffold
+```
 
 ```bash
 # file in -> file out
@@ -73,7 +79,7 @@ end
 ```
 
 ```bash
-rspec-scaffold "path/to/code.rb"
+rspec-scaffold "app/models/ability.rb"
 ```
 
 Outputs to 'spec/models/ability_spec.rb':

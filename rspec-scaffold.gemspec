@@ -13,9 +13,18 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Generates RSpec scaffolding for conditions and ivar assignments}
   spec.homepage      = "https://github.com/ridiculous/rspec-scaffold"
 
+  puts "== available files =="
+  puts `git ls-files -z`.split("\x0")
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+
   spec.bindir        = 'exe'
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+
+  puts "== files =="
+  puts spec.files
+  spec.executables   = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  puts "== executables =="
+  puts spec.executables
+  #spec.executables   = ["/exe/rspec-scaffold"]
   spec.require_paths = ["lib"]
   spec.license       = 'MIT'
 

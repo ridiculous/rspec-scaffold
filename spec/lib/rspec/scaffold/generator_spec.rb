@@ -1,13 +1,22 @@
 # rspec spec/lib/rspec/scaffold/generator_spec.rb
 describe RSpec::Scaffold::Generator do
   let(:file) { FIXTURE_ROOT.join('report.rb') }
-
   subject { described_class.new(file) }
 
   describe '.perform' do
     context "when given a relatively simple file" do
       it 'should return the spec for the given file as an array of lines' do
         expect(subject.perform.join("\n")).to eq report_rb_test_scaffold
+      end
+    end
+
+    context "when given simple code as string" do
+      let(:file) { FIXTURE_ROOT.join('report.rb') }
+      let(:text) { File.read(FIXTURE_ROOT.join('report.rb')) }
+
+      it "should return the same correct scaffold that would be generated for a file argument" do
+        expect(described_class.new(text).perform.join("\n")).to eq report_rb_test_scaffold
+        expect(described_class.new(text).perform).to eq described_class.new(file).perform
       end
     end
 
