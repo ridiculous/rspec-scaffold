@@ -1,36 +1,25 @@
 module RSpec
   module Scaffold
-    class Generator < DelegateClass(Ryan)
+    class Generator
 
-      # = Class
-      # generate a rspec file based on existing code
-
-      attr_reader :file
-
-      def initialize(file)
-        @file = file
-        super Ryan.new(file)
-      end
-
-      def const
-        @const ||= name.split('::').inject(Kernel) { |k, part| k.const_get part }
-      end
-
-      def perform
+      # Generates an array of lines that can be joined into an RSpec file based
+      #
+      # @param [Ryan,#name,#funcs,#initialization_args,#class?,#module?] parser object that is used to build the rspec file
+      def perform(parser)
         indent = (' ' * 2)
         second_indent = indent * 2
-        lines = [%Q(require "#{Scaffold.helper_file}"), %Q(), %Q(describe #{const} do)]
-        if class?
-          initialization_args.each do |arg|
+        lines = [%Q(require "#{Scaffold.helper_file}"), %Q(), %Q(describe #{parser.name} do)]
+        if parser.class?
+          parser.initialization_args.each do |arg|
             lines << %Q(#{indent}let(:#{arg.to_s.sub(/^[&*]/, '')}) {})
           end
           lines << %Q()
-          lines << %Q(#{indent}subject { described_class.new #{initialization_args.join(', ')} })
-        elsif module?
-          lines << %Q(#{indent}subject { Class.new { include #{const} }.new })
+          lines << %Q(#{indent}subject { described_class.new #{parser.initialization_args.join(', ')} })
+        elsif parser.module?
+          lines << %Q(#{indent}subject { Class.new { include #{parser.name} }.new })
         end
         lines << %Q()
-        funcs.reject(&:private?).each do |func|
+        parser.funcs.reject(&:private?).each do |func|
           lines << %Q(#{indent}describe "#{func.class? ? '.' : '#'}#{func.name}" do)
           func.assignments.each do |assignment|
             lines << %Q(#{second_indent}it "#{assignment}" do) << %Q(#{second_indent}end)

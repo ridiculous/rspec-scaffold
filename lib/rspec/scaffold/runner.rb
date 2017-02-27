@@ -4,8 +4,8 @@ module RSpec
       attr_reader :file
 
       # @param [Pathname] file
-      def initialize(file)
-        @file = Pathname.new(file)
+      def initialize(file = nil)
+        @file = Pathname.new(file) if file
       end
 
       def perform
@@ -14,7 +14,7 @@ module RSpec
           rspec_file = Pathname.new(spec_file(ruby_file))
           spec_file_path = rspec_file.to_s[%r|/(spec/.+)|, 1]
           next if rspec_file.exist?.tap { |exists| log "- #{spec_file_path} - already exists", :gray if exists }
-          spec = generate_spec(ruby_file)
+          spec = generate_spec(Pathname.new(File.expand_path(ruby_file)))
           next unless spec
           log "+ #{spec_file_path}"
           FileUtils.mkdir_p(rspec_file.parent)
@@ -24,20 +24,25 @@ module RSpec
         end
       end
 
+      def generate_spec(ruby)
+        ryan = Ryan.new(ruby)
+        if ryan.funcs.any?
+          spec = RSpec::Scaffold::Generator.new
+          spec.perform ryan
+        else
+          log "- #{truncate(ruby)} - no methods", :gray
+          nil
+        end
+      rescue => e
+        log "! #{truncate(ruby)} - #{e.inspect.gsub /^#<|>$/, ''}\n#{e.backtrace.take(10)}", :red
+      end
+
       #
       # Private
       #
 
-      def generate_spec(ruby_file)
-        spec = RSpec::Scaffold::Generator.new Pathname.new(File.expand_path(ruby_file))
-        if spec.funcs.any?
-          spec.perform
-        else
-          log "- #{ruby_file} - no methods", :gray
-          nil
-        end
-      rescue => e
-        log "! #{ruby_file} - #{e.inspect.gsub /^#<|>$/, ''}", :red
+      def truncate(str)
+        str.to_s.scan(/.+/).take(2).tap { |x| x[1..-1].each { |i| i[0..-1] = '...' } }.join
       end
 
       def ruby_files
