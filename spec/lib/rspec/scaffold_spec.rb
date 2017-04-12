@@ -3,10 +3,9 @@ describe RSpec::Scaffold do
   klass = RSpec::Scaffold
 
   describe ".helper_file" do
-    # class ::Rails; end # a simple way to have Rails defined
-
     it "should return 'rails_helper' if Rails version is 3 or above" do
       allow(RSpec::Core::Version::STRING).to receive(:to_s).and_return('3')
+      allow(Object).to receive(:const_defined?).with("Rails").and_return(true)
 
       expect(klass.helper_file).to eq 'rails_helper'
     end

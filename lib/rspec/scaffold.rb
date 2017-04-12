@@ -18,7 +18,7 @@ module RSpec
 
     # DEPRECATED
     def self.helper_file
-      if defined?(::Rails) && RSpec::Core::Version::STRING.to_s >= '3'
+      if Object.const_defined?("Rails") && RSpec::Core::Version::STRING.to_s >= '3'
         'rails_helper'
       else
         'spec_helper'
