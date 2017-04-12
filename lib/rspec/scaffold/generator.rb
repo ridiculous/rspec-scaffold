@@ -17,7 +17,9 @@ module RSpec
         elsif parser.module?
           lines << %Q(#{indent}subject { Class.new { include #{parser.name} }.new })
         end
+
         lines << %Q()
+
         parser.funcs.reject(&:private?).each do |func|
           lines << %Q(#{indent}describe "#{func.class? ? '.' : '#'}#{func.name}" do)
           func.assignments.each do |assignment|
@@ -34,6 +36,7 @@ module RSpec
 
         return lines
       end
+
     end
   end
 end

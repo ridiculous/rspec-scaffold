@@ -128,6 +128,9 @@ describe RSpec::Scaffold::Generator do
           expect(ryan).to_not be_module
         end
       end
+
     end
+
   end
+  
 end
