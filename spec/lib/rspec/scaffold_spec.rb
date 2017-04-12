@@ -22,11 +22,10 @@ describe RSpec::Scaffold do
     let(:path) { klass.root + "spec/fixtures/classes/ability.rb" }
 
     context "when passed a single file and :to_text mode" do
-      it "should puts about action taken and return the scaffold as text" do
+      xit "should puts about action taken and return the scaffold as text" do
         expect(0).to eq 1
       end
     end
-
 
     # it "should trigger RSpec::Scaffold::Runner#perform and return test scaffold string" do
     #   exp = ability_class_test_scaffold
@@ -41,10 +40,18 @@ describe RSpec::Scaffold do
   end
 
   describe ".testify_text(text)" do
-    it "should return trigger Generator.new(text).perform and return the scaffold string" do
-      expect_any_instance_of(RSpec::Scaffold::Generator).to receive(:perform).and_return("test scaffold string")
+    let(:file) { FIXTURE_ROOT.join('models/activity_feature.rb') }
+    let(:text) { File.read(file) }
 
-      expect(described_class.testify_text("test input")).to eq "test scaffold string"
+    subject { described_class.testify_text(text).join("\n") }
+
+    it "should trigger Generator.new(text).perform and return the scaffold string" do
+      # allow_any_instance_of(RSpec::Scaffold::Generator).to receive(:perform).and_call_original
+      # expect_any_instance_of(RSpec::Scaffold::Generator).to receive(:perform).with().once
+
+      # binding.pry
+
+      expect(subject).to eq models_activity_feature_rb_test_scaffold
     end
   end
 

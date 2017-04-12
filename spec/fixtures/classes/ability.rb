@@ -1,6 +1,6 @@
 # app/models/ability.rb
 class Ability
-  # include CanCan::Ability
+  include CanCan::Ability
 
   def initialize(user)
     if user.admin?

@@ -4,25 +4,26 @@ describe RSpec::Scaffold::Generator do
   let(:ryan) { Ryan.new(file) }
 
   describe '.perform' do
-    it 'returns the spec for the given file as an array of lines' do
-      expect(subject.perform(ryan).join("\n")).to eq report_rb_test_scaffold
+    subject { described_class.new(ryan).perform.join("\n") }
+
+    context "when given standart test code" do
+      it 'returns the spec for the given file as an array of lines' do
+        expect(subject).to eq report_rb_test_scaffold
+      end
     end
 
     context "when given simple code as string" do
       let(:file) { FIXTURE_ROOT.join('report.rb') }
-      let(:text) { File.read(FIXTURE_ROOT.join('report.rb')) }
+      let(:text) { File.read(file) }
+      let(:file_ryan) { Ryan.new(file) }
+      let(:text_ryan) { Ryan.new(text) }
+
+      it "should return a correct scaffold" do
+        expect(described_class.new(text_ryan).perform.join("\n")).to eq report_rb_test_scaffold
+      end
 
       it "should return the same correct scaffold that would be generated for a file argument" do
-        expect(described_class.new(text).perform.join("\n")).to eq report_rb_test_scaffold
-        expect(described_class.new(text).perform).to eq described_class.new(file).perform
-      end
-    end
-
-    context "when given a real-world model" do
-      let(:file) { FIXTURE_ROOT.join('extensions.rb') }
-
-      it "should not hang up on calls to include etc" do
-        expect(subject.perform.join("\n")).to eq ""
+        expect(described_class.new(file_ryan).perform).to eq described_class.new(text_ryan).perform
       end
     end
 
@@ -30,7 +31,7 @@ describe RSpec::Scaffold::Generator do
       let(:file) { FIXTURE_ROOT.join('extensions.rb') }
 
       it 'returns an array of lines for the file' do
-        expect(subject.perform(ryan).join("\n")).to eq extensions_rb_test_scaffold
+        expect(subject).to eq extensions_rb_test_scaffold
       end
     end
 
@@ -38,7 +39,7 @@ describe RSpec::Scaffold::Generator do
       let(:file) { FIXTURE_ROOT.join('controllers/application_controller.rb') }
 
       it 'rejects multiline statements to protect the client from our shortcomings' do
-        expect(subject.perform(ryan).join("\n")).to eq application_controller_rb_test_scaffold
+        expect(subject).to eq application_controller_rb_test_scaffold
       end
     end
   end
@@ -132,5 +133,5 @@ describe RSpec::Scaffold::Generator do
     end
 
   end
-  
+
 end

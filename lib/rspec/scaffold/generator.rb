@@ -1,13 +1,21 @@
 module RSpec
   module Scaffold
     class Generator
-      # Generates an array of lines that can be joined into an RSpec file based
+      # Generates an array of lines that can be joined into an RSpec file based.
       #
       # @param [Ryan,#name,#funcs,#initialization_args,#class?,#module?] parser object that is used to build the rspec file
-      def perform(parser)
+
+      def initialize(parser)
+        @parser = parser
+      end
+
+      def perform(parser=nil)
+        # for backwards compat with arg to perform
+        parser ||= @parser
+
         indent = (' ' * 2)
         second_indent = indent * 2
-        lines = [%Q(require "#{Scaffold.helper_file}"), %Q(), %Q(describe #{parser.name} do)]
+        lines = [%Q(# spring rspec), %Q(describe #{parser.name} do)]
         if parser.class?
           parser.initialization_args.each do |arg|
             lines << %Q(#{indent}let(:#{arg.to_s.sub(/^[&*]/, '')}) {})

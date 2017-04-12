@@ -16,6 +16,7 @@ module RSpec
     # loads gem's rake tasks in main app
     # Dir["#{RSpec::Scaffold.root}" + "lib/rspec/scaffold/tasks/**/*.rake"].each { |ext| load ext } if defined?(Rake)
 
+    # DEPRECATED
     def self.helper_file
       if defined?(::Rails) && RSpec::Core::Version::STRING.to_s >= '3'
         'rails_helper'
@@ -33,7 +34,7 @@ module RSpec
 
     # RSpec::Scaffold.testify_text(text)
     def self.testify_text(text)
-      test_scaffold = RSpec::Scaffold::Generator.new(text).perform
+      test_scaffold = RSpec::Scaffold::Generator.new(Ryan.new(text)).perform
       return test_scaffold
     end
 

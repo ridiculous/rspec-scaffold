@@ -15,7 +15,8 @@ gem 'rspec-scaffold', '~> 2.0.0.beta1', require: false
 Works best if used from within a Rails app root and if the project has the spec/ directory (it should!).  
 
 ## Usage
-The gem provides a command line utility `rspec-scaffold` for working with existing files, and simple-to-use module methods for programmatic use.
+The gem provides a command line utility `rspec-scaffold` for working with existing files, and simple-to-use module methods for programmatic use.  
+The idea is to point to existing ruby code files and `rspec-scaffold` will ensure corresponding spec files in `/spec` directory.  
 
 ### The CLI
 Only operates on paths.
@@ -25,6 +26,8 @@ __Setup__
 ```rb
 bundle binstubs rspec-scaffold
 ```
+
+__Use__
 
 ```bash
 # file in -> file out

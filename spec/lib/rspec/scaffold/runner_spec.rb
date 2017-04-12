@@ -3,9 +3,10 @@ describe RSpec::Scaffold::Runner do
   describe '#generate_spec' do
     let(:input) { FIXTURE_ROOT.join('multiple_args.rb') }
 
-    it 'returns a collection of lines used to build the spec file' do
-      expect(subject.generate_spec(input).join("\n")).to eq %Q(require "spec_helper"
+    subject { described_class.new.generate_spec(input).join("\n")}
 
+    it 'returns a collection of lines used to build the spec file' do
+      expect(subject).to eq %Q(# spring rspec
 describe MultipleArgs do
   let(:name) {}
   let(:age) {}
@@ -24,11 +25,10 @@ end
     end
 
     context 'when given raw Ruby code' do
-      let(:input) { "class Admin::Super; def name() @name = String.random end end\n" }
+      let(:input) { "class Admin::Super; def name(); @name = '#{Time.now}'; end; end" }
 
       it 'returns a collection of lines used to build the spec file' do
-        expect(subject.generate_spec(input).join("\n")).to eq %Q(require "spec_helper"
-
+        expect(subject).to eq %Q(# spring rspec
 describe Admin::Super do
 
   subject { described_class.new  }

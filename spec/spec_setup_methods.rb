@@ -4,6 +4,13 @@ class String
   end
 end
 
+#== Raw ruby ==
+
+# def method_name
+#
+# end
+
+#== Expectations ==
 
 def ability_class_test_scaffold
   string = <<-ENDBAR.unindent
@@ -38,8 +45,7 @@ end
 
 def report_rb_test_scaffold
   string = <<-ENDBAR.unindent
-    require "spec_helper"
-
+    # spring rspec
     describe Report do
       let(:message) {}
 
@@ -175,8 +181,7 @@ end
 
 def extensions_rb_test_scaffold
   string = <<-ENDBAR.unindent
-    require "spec_helper"
-
+    # spring rspec
     describe Extensions do
       subject { Class.new { include Extensions }.new }
 
@@ -258,8 +263,7 @@ end
 
 def application_controller_rb_test_scaffold
   string = <<-ENDBAR.unindent
-    require "spec_helper"
-
+    # spring rspec
     describe ApplicationController do
 
       subject { described_class.new  }
@@ -292,6 +296,25 @@ def application_controller_rb_test_scaffold
         context "not defined? @current_user" do
           before {}
         end
+      end
+
+    end
+  ENDBAR
+
+  return string
+end
+
+def models_activity_feature_rb_test_scaffold
+  string = <<-ENDBAR.unindent
+    # spring rspec
+    describe ActivityFeature do
+
+      subject { described_class.new  }
+
+      describe ".localized_fields" do
+      end
+
+      describe "#image" do
       end
 
     end
