@@ -10,6 +10,7 @@ module RSpec
 
       def perform
         fail ArgumentError, %Q(File or directory does not exist: "#{file}") if !File.exists?(file) && !File.exists?("#{file}.rb")
+
         ruby_files.each do |ruby_file|
           rspec_file = Pathname.new(spec_file(ruby_file))
           spec_file_path = rspec_file.to_s[%r|/(spec/.+)|, 1]
@@ -69,6 +70,7 @@ module RSpec
       end
 
       def spec_path
+        binding.pry
         if File.directory?(File.expand_path('spec'))
           File.expand_path('spec')
         else
@@ -77,7 +79,7 @@ module RSpec
       end
 
       def log(msg = nil, color = :green)
-        HighLine.new.say %Q(  <%= color('#{msg}', :#{color}) %>)
+        return RSpec::Scaffold.log(msg, color)
       end
     end
   end

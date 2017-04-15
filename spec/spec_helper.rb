@@ -27,5 +27,14 @@ RSpec.configure do |config|
   # config.filter_run focus: true
 end
 
+RSpec::Matchers.define_negated_matcher(:not_change, :change)
+RSpec::Matchers.define_negated_matcher(:not_receive, :receive)
+
 require 'pry'
 require 'spec_setup_methods'
+require 'fakefs/safe'
+FakeFS.deactivate!
+
+# FakeFS.with_fresh do
+#   # whatever it does
+# end

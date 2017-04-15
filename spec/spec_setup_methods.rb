@@ -4,12 +4,6 @@ class String
   end
 end
 
-#== Raw ruby ==
-
-# def method_name
-#
-# end
-
 #== Expectations ==
 
 def ability_class_test_scaffold

@@ -1,14 +1,23 @@
 # RSpec Scaffolding [![Build Status](https://travis-ci.org/ridiculous/rspec-scaffold.svg)](https://travis-ci.org/ridiculous/rspec-scaffold)
 
 Generates RSpec scaffolding for existing code.  
+Cleverly infers spec location from source file location.   
 Helps you write tests by showing you what you should be testing, which are conditions and changes to state (at a minimum).
 
 ## Installation
 
 Requires Ruby >= 1.9.3
 
+__1. update gemfile and bundle__
+
 ```ruby
 gem 'rspec-scaffold', '~> 2.0.0.beta1', require: false
+```
+
+__2. see if it works__
+
+```
+rspec-scaffold
 ```
 
 ## Caveats
@@ -21,42 +30,44 @@ The idea is to point to existing ruby code files and `rspec-scaffold` will ensur
 ### The CLI
 Only operates on paths.
 
-__Setup__
-
-```rb
-bundle binstubs rspec-scaffold
-```
-
-__Use__
+__file in -> file out__
 
 ```bash
-# file in -> file out
 rspec-scaffold "path/to/code.rb"
+```
 
-# or for a directory
-rspec-scaffold -d "path/to/code/directory"
+__directory in -> files out__
 
-# output to STDOUT instead of file
-rspec-scaffold -t "path/to/code.rb"
+```bash
+rspec-scaffold "app/models/"  
+```
+
+__output to STDOUT instead of file__
+
+```bash
+rspec-scaffold -t "path/to/code.rb"  
 ```
 
 ### The methods
 
 Three scenarios are supported:
 
-#### 1. Provide ruby code -> get scaffold string (not supported by CLI since it would be cumbersome)
+__1. Provide ruby code -> get scaffold string (not supported by CLI since it would be cumbersome)__
+
 ```rb
-  RSpec::Scaffold.testify_text(text)  
+RSpec::Scaffold.testify_text(text)  
 ```
 
-#### 2. Provide ruby code file(s) -> get scaffold string
+__2. Provide ruby code file(s) -> get scaffold string__
+
 ```rb
-  RSpec::Scaffold.testify_file(filepath, :to_text)
+RSpec::Scaffold.testify_file(filepath, :to_text)
 ```
 
-#### 3. Provide ruby code file(s) -> get scaffold file(s)
+__3. Provide ruby code file(s) -> get scaffold file(s)__
+
 ```rb
-  RSpec::Scaffold.testify_file(filepath, :to_file)  
+RSpec::Scaffold.testify_file(filepath, :to_file, "/optional/custom/output/file.rb")  
 ```
 
 ## Example

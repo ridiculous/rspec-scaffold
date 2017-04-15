@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = 'exe'
-  spec.executables   = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.executables   = ["rspec-scaffold"] # spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
   spec.license       = 'MIT'
 
@@ -31,4 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", ">= 3.2", "< 4"
   # spec.add_development_dependency "pry", "~> 0.10.4"
   spec.add_development_dependency "simplecov", "~> 0.13.0"
+  spec.add_development_dependency "fakefs", "~> 0.11.0" # fakes filesystem, useful for testing file outputs.
 end

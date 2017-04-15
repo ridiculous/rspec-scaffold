@@ -1,12 +1,14 @@
 # rspec spec/lib/rspec/scaffold/runner_spec.rb
 describe RSpec::Scaffold::Runner do
-  describe '#generate_spec' do
-    let(:input) { FIXTURE_ROOT.join('multiple_args.rb') }
+  describe '#generate_spec(ruby)' do
 
     subject { described_class.new.generate_spec(input).join("\n")}
 
-    it 'returns a collection of lines used to build the spec file' do
-      expect(subject).to eq %Q(# spring rspec
+    context "when argument is a path to file" do
+      let(:input) { FIXTURE_ROOT.join('multiple_args.rb') }
+
+      it 'returns a collection of lines used to build the spec file' do
+        expect(subject).to eq %Q(# spring rspec
 describe MultipleArgs do
   let(:name) {}
   let(:age) {}
@@ -22,9 +24,10 @@ describe MultipleArgs do
 
 end
 )
+      end
     end
 
-    context 'when given raw Ruby code' do
+    context 'when argument is a String (of Ruby code)' do
       let(:input) { "class Admin::Super; def name(); @name = '#{Time.now}'; end; end" }
 
       it 'returns a collection of lines used to build the spec file' do
