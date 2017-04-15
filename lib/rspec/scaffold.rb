@@ -9,7 +9,6 @@ module RSpec
   module Scaffold
     autoload :Cli, "rspec/scaffold/cli"
     autoload :ConditionExhibit, "rspec/scaffold/condition_exhibit"
-    autoload :FileReader, "rspec/scaffold/file_reader"
     autoload :FileWriter, "rspec/scaffold/file_writer"
     autoload :Generator, "rspec/scaffold/generator"
     autoload :RecursiveDirectoryExpander, "rspec/scaffold/recursive_directory_expander"
@@ -34,7 +33,7 @@ module RSpec
     def self.testify_file(filepath, mode=:to_text, output_file=nil)
       begin
         test_scaffold = RSpec::Scaffold::Generator.new(Ryan.new(filepath)).perform
-      rescue Racc::ParseError => e
+      rescue => e
         RSpec::Scaffold.log("- parse error in '#{filepath}': #{e.message}", :red)
         return nil
       end
@@ -56,7 +55,7 @@ module RSpec
     def self.testify_text(text)
       test_scaffold = RSpec::Scaffold::Generator.new(Ryan.new(text)).perform
       return test_scaffold.join("\n")
-    rescue Racc::ParseError => e
+    rescue => e
       message = "parse error: #{e.message}"
       RSpec::Scaffold.log(message, :red)
       return message

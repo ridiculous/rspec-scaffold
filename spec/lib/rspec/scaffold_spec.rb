@@ -85,6 +85,13 @@ describe RSpec::Scaffold do
       end
     end
 
+    #== Edge ==
+    context "when passed an unsupported :mode" do
+      it "should raise an error" do
+        expect{ described_class.testify_file(path, :random_mode) }.to raise_error(RuntimeError, %r'\AUnrecognized mode')
+      end
+    end
+
   end
 
   describe ".testify_text(text)" do
@@ -96,6 +103,16 @@ describe RSpec::Scaffold do
     it "should trigger Generator.new(text).perform and return the scaffold string" do
       expect(subject).to eq models_activity_feature_rb_test_scaffold
     end
+
+    context "when given ruby code argument is of invalid syntax" do
+      let(:text) { %Q|class Fancy; ((; end| }
+
+      it "should return the error message" do
+        allow(STDOUT).to receive(:puts)
+        expect(subject).to eq "parse error: (string):1 :: parse error on value [\"end\", 1] (kEND)"
+      end
+    end
+
   end
 
   describe ".root" do

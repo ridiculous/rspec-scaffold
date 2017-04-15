@@ -14,7 +14,13 @@ describe RSpec::Scaffold::Cli do
     FakeFS::FileSystem.clear
   end
 
-  describe ".start(boot_path)" do
+  describe ".command_line_arguments" do
+    it "should serve as a mockable proxy for accesing the ARGV array" do
+      expect(described_class.command_line_arguments).to be_an Array
+    end
+  end
+
+  describe "#start(boot_path)" do
     before :each do
       allow(described_class).to receive(:command_line_arguments).and_return([])
     end

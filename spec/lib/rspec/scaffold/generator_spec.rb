@@ -42,6 +42,14 @@ describe RSpec::Scaffold::Generator do
         expect(subject).to eq application_controller_rb_test_scaffold
       end
     end
+
+    #== edge ==
+    context "when the parser encounters an error" do
+      it "should reraie it as a specific parse error" do
+        expect{ described_class.new(Ryan.new(%Q|class Fancy; ((; end|)).perform }.to raise_error(Racc::ParseError, %r'parse error on value')
+      end
+    end
+
   end
 
   describe 'Parsing functionality (Ryan)' do
