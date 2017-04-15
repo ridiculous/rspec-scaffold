@@ -76,7 +76,7 @@ describe RSpec::Scaffold do
           # make sure the file already exists
           File.open(same_dir_spec_path, 'w') {|f| f << "Test contents" }
 
-          expect(STDOUT).to receive(:puts).ordered.with(%r'/rspec-scaffold/spec/fixtures/models/activity_feature_spec.rb - already exists')        
+          expect(STDOUT).to receive(:puts).ordered.with(%r'/rspec-scaffold/spec/fixtures/models/activity_feature_spec.rb - already exists')
 
           # second, actual repeat
           expect{described_class.testify_file(path, :to_file)}.
@@ -91,7 +91,7 @@ describe RSpec::Scaffold do
     let(:file) { FIXTURE_ROOT.join('models/activity_feature.rb') }
     let(:text) { File.read(file) }
 
-    subject { described_class.testify_text(text).join("\n") }
+    subject { described_class.testify_text(text) }
 
     it "should trigger Generator.new(text).perform and return the scaffold string" do
       expect(subject).to eq models_activity_feature_rb_test_scaffold
