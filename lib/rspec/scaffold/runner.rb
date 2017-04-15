@@ -70,7 +70,6 @@ module RSpec
       end
 
       def spec_path
-        binding.pry
         if File.directory?(File.expand_path('spec'))
           File.expand_path('spec')
         else

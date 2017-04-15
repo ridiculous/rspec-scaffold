@@ -4,8 +4,6 @@ module RSpec
 
       # This method will be run as a script and uses on ARGV hash contents
       def self.start
-        # binding.pry
-
         # puts "detected path argument as '#{path_argument}'"
 
         if path_argument.nil? || options.include?("-h") || options.include?("--help")
