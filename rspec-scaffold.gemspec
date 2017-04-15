@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = 'exe'
-  spec.executables   = ["rspec-scaffold"] # spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.executables   = ["rspec-scaffold"] # NB, as of bundler 0.12, executables *must* be in /exe
   spec.require_paths = ["lib"]
   spec.license       = 'MIT'
 
@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'highline', '~> 1.6'
   spec.add_dependency 'ryan', '~> 1.1.0'
 
-  spec.add_dependency "pry", "~> 0.10.4"
+  spec.add_dependency "pry", "~> 0.10.4" # made dev dep after CLI is done
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"

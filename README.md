@@ -39,7 +39,8 @@ rspec-scaffold "path/to/code.rb"
 __directory in -> files out__
 
 ```bash
-rspec-scaffold "app/models/"  
+# pass -y option to pre-agree to many spec file creation
+rspec-scaffold "app/models/"
 ```
 
 __output to STDOUT instead of file__

@@ -8,6 +8,7 @@ module RSpec
         @file = Pathname.new(file) if file
       end
 
+      # V1, DEPRECATED
       def perform
         fail ArgumentError, %Q(File or directory does not exist: "#{file}") if !File.exists?(file) && !File.exists?("#{file}.rb")
 

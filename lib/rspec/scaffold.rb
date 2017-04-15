@@ -35,11 +35,11 @@ module RSpec
       case mode
       when :to_file
         output_filename = (output_file.nil? ? filepath.sub(%r'\.rb\z', '_spec.rb') : output_file)
-        return RSpec::Scaffold::FileWriter.new(output_filename, "yay, test scaffold!").write!
+        return RSpec::Scaffold::FileWriter.new(output_filename, scaffold_text).write!
       when :to_text
         return scaffold_text
       else
-        abort("Unrecognized mode")
+        raise("Unrecognized mode")
       end
     end
 
