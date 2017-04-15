@@ -12,7 +12,7 @@ module RSpec
       def write!
         # 1. skip if file already exists.
         if output_file_already_exists?
-          RSpec::Scaffold.log("- #{@output_file} - already exists", :gray)
+          RSpec::Scaffold.log("- #{@output_file} - already exists", :puts)
           return
         end
 

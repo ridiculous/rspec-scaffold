@@ -19,9 +19,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.license       = 'MIT'
 
-  spec.required_ruby_version = '>= 1.9.3'
+  spec.required_ruby_version = '>= 2.0.0'
 
   spec.add_dependency 'highline', '~> 1.6'
+  spec.add_dependency 'luks'# , '~> 1.6'
   spec.add_dependency 'ryan', '~> 1.1.0'
 
   spec.add_dependency "pry", "~> 0.10.4" # made dev dep after CLI is done

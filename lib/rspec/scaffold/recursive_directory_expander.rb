@@ -11,7 +11,7 @@ module RSpec
       # RSpec::Scaffold::RecursiveDirectoryExpander.new("/path/to/dir")
       def expand_ruby_files
         # 1. Raise if not a directory
-        raise(ArgumentError.new(%Q|"#{file}" is not a directory|) if !@input_dir.directory?
+        raise(ArgumentError.new(%Q|"#{file}" is not a directory|)) if !@input_dir.directory?
 
         # 2. do the recursive expansion of ruby files
         print ">> Recursively scanning #{@input_dir} for ruby files... "
@@ -20,9 +20,7 @@ module RSpec
 
         puts "done"
 
-        binding.pry
-
-        return @ruby_files_in_tree
+        return @ruby_files_in_tree #=> ["/rspec-scaffold/spec/dummy/app/lib/some_service_class.rb"] array of strings
       end
 
     end

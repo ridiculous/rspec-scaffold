@@ -16,40 +16,52 @@ module RSpec
 
       # This method will be run as a script and uses on ARGV hash contents
       def start
-        if path_argument.nil? || options.include?("h")
-          puts help_string
-          abort
+        # fallback to help text output if needed args are missing
+        (puts help_string; abort) if path_argument.nil? || options.include?("h")
+
+        # 0 see if path argument is not absolute
+        (puts absolute_path_warning; abort) if path_argument[%r'\A[\/]']
+
+        # 0. see if passed file/dir exists and is in boot_path tree.
+        (puts not_found_warning_string; abort) if !file_or_dir.exist?
+
+        # 1. must process path argument to determine whether it is a single file or a dir.
+        @processable_files = if file_or_dir.directory?
+          RSpec::Scaffold::RecursiveDirectoryExpander.new(file_or_dir).expand_ruby_files
         else
-          # 0. see if passed file/dir exists and is in boot_path tree.
-          if !file_or_dir.exist?
-            puts "The file or dir you passed does not exist in project root!"
-          end
+          # file_or_dir.file?
+          [file_or_dir]
+        end
 
-          # 1. must process path argument to determine whether it is a single file or a dir.
-          @processable_files = if file_or_dir.directory?
-            RSpec::Scaffold::RecursiveDirectoryExpander.new(file_or_dir).expand_ruby_files
+        # 2. verify processing if there are numerous files and -y is not given
+        if !many_processable_file_danger? || argumented_agreeing? || output_to_console?
+          # noop, alls well
+        else
+          puts "Many files are about to be processed. Are you sure? [Y/n]"
+          if STDIN.gets.strip[%r'\Ay'i]
+            green("-> Proceeding with scaffold build!")
           else
-            # file_or_dir.file?
-            [file_or_dir]
+            abort("Nothing was done!") unless STDIN.gets.strip[%r'\Ay'i]
           end
+        end
 
-          # 2. verify processing if there are numerous files and -y is not given
-          if many_processable_file_danger? && !argumented_agreeing?
-            puts "Many files are about to be processed. Are you sure?"
-            abort unless STDING.gets.strip[%r'\Ay'i]
+        # 2. once path processing is done, array of files (sometimes and array of one file) is looped over
+        @processable_files.each do |processable_file|
+          # build found file's spec file location
+          spec_file_location = RSpec::Scaffold::SpecLocationBuilder.new(@boot_path, processable_file).spec_location
+
+          # all is set for processing
+          if output_to_console?
+            test_scaffold = RSpec::Scaffold.testify_file(processable_file, :to_text)
+
+            puts("#== #{processable_file} ==")
+            puts("")
+            puts(test_scaffold)
+            puts("")
+          else
+            # output to spec files, core behavior
+            RSpec::Scaffold.testify_file(processable_file, :to_file, spec_file_location)
           end
-
-          # 2. once path processing is done, array of files (sometimes and array of one file) is looped over
-          @processable_files.each do |processable_file|
-            # all is set for processing
-            if options.include?("t")
-              RSpec::Scaffold.testify_file(path_argument, :to_text)
-            else
-              # output to spec files, core behavior
-              RSpec::Scaffold.testify_file(path_argument, :to_file)
-            end
-          end
-
         end
 
         return true
@@ -80,8 +92,12 @@ module RSpec
           return options.include?("y")
         end
 
+        def output_to_console?
+          return options.include?("t")
+        end
+
         def many_processable_file_danger?
-          return 5 < processable_files.size
+          return 5 < @processable_files.size
         end
 
         def path_argument
@@ -99,7 +115,7 @@ module RSpec
         end
 
         def findable_pathname
-          return @findable_pathname ||= Pathname("#{@boot_path}#{path_argument}")
+          return @findable_pathname ||= Pathname("#{@boot_path}").join("#{path_argument}")
         end
 
         def help_string
@@ -122,14 +138,17 @@ Common use cases:
           return help_string.strip.gsub(%r'\A\s+', '')
         end
 
-        def boot_and_path_mismatch_warning_string
+        def not_found_warning_string
           warning_string = <<-ENDBAR
-Command boot path and argument path mismatch detected!
+Could not find "#{findable_pathname}"
+          ENDBAR
 
-Command booted from: '#{}'
-Path argument was: '#{}'
+          return warning_string.strip.gsub(%r'\A\s+', '')
+        end
 
-Are you running rspec-scaffold from project root?
+        def absolute_path_warning
+          warning_string = <<-ENDBAR
+Absolute path argument '#{path_argument}' detected. Please use a relative path (no leading slash) from project root.
           ENDBAR
 
           return warning_string.strip.gsub(%r'\A\s+', '')

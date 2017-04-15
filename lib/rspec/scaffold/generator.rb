@@ -43,6 +43,8 @@ module RSpec
         lines << %Q(end) << %Q()
 
         return lines
+      rescue => e
+        raise Racc::ParseError.new(e.message)
       end
 
     end

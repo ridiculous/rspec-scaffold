@@ -15,7 +15,7 @@ module RSpec
         ruby_files.each do |ruby_file|
           rspec_file = Pathname.new(spec_file(ruby_file))
           spec_file_path = rspec_file.to_s[%r|/(spec/.+)|, 1]
-          next if rspec_file.exist?.tap { |exists| log "- #{spec_file_path} - already exists", :gray if exists }
+          next if rspec_file.exist?.tap { |exists| log "- #{spec_file_path} - already exists", :puts if exists }
 
           spec = generate_spec(Pathname.new(File.expand_path(ruby_file)))
           next unless spec
@@ -34,7 +34,7 @@ module RSpec
         if ryan.funcs.any?
           RSpec::Scaffold::Generator.new(ryan).perform
         else
-          log "- #{truncate(ruby)} - no methods", :gray
+          log "- #{truncate(ruby)} - no methods", :puts
           nil
         end
       rescue => e
