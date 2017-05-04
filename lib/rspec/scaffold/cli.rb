@@ -37,18 +37,16 @@ module RSpec
         if !many_processable_file_danger? || argumented_agreeing? || output_to_console?
           # noop, alls well
         else
-          puts "Many files are about to be processed. Are you sure? [Y/n]"
+          puts "#{@processable_files.size} files are about to be processed. Are you sure? [Y/n]"
           if STDIN.gets.strip[%r'\Ay'i]
             green("-> Proceeding with scaffold build!")
           else
-            abort("Nothing was done!") unless STDIN.gets.strip[%r'\Ay'i]
+            abort("Nothing was done!")
           end
         end
 
         # 2. once path processing is done, array of files (sometimes and array of one file) is looped over
         @processable_files.each do |processable_file|
-          # build found file's spec file location
-          spec_file_location = RSpec::Scaffold::SpecLocationBuilder.new(@boot_path, processable_file).spec_location
 
           # all is set for processing
           if output_to_console?
@@ -59,10 +57,15 @@ module RSpec
             puts(test_scaffold)
             puts("")
           else
+            # build found file's spec file location
+            spec_file_location = RSpec::Scaffold::SpecLocationBuilder.new(@boot_path, processable_file).spec_location
+
             # output to spec files, core behavior
             RSpec::Scaffold.testify_file(processable_file, :to_file, spec_file_location)
           end
         end
+
+        puts "-> All done!"
 
         return true
       end

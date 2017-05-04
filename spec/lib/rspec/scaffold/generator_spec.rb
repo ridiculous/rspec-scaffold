@@ -3,7 +3,7 @@ describe RSpec::Scaffold::Generator do
   let(:file) { FIXTURE_ROOT.join('report.rb') }
   let(:ryan) { Ryan.new(file) }
 
-  describe '.perform' do
+  describe '#perform' do
     subject { described_class.new(ryan).perform.join("\n") }
 
     context "when given standart test code" do
@@ -43,9 +43,34 @@ describe RSpec::Scaffold::Generator do
       end
     end
 
+    context "when given code of what appears to be a Rails model" do
+      let(:file) { FIXTURE_ROOT.join('models/model.rb') }
+
+      it "should make scaffolds for scope tests" do
+        expect(subject).to match(models_activity_feature_scope_scaffold1)
+        expect(subject).to match(models_activity_feature_scope_scaffold2)
+      end
+
+      it "should make scaffolds for class method(s)" do
+        expect(subject).to match(%Q|  describe ".localized_fields" do|)
+      end
+
+      it "should make scaffolds for instance method(s)" do
+        expect(subject).to match(%Q|  describe "#image" do|)
+      end
+    end
+
+    context "when given code of what appears to be a rails model concern (a module)" do
+      let(:file) { FIXTURE_ROOT.join('models/concerns/model/fancy_ext.rb')  }
+
+      it "should produce correct scaffold for scopes, class and instance methods" do
+        expect(subject).to eq(model_concern_scaffold)
+      end
+    end
+
     #== edge ==
     context "when the parser encounters an error" do
-      it "should reraie it as a specific parse error" do
+      it "should reraise it as a specific parse error" do
         expect{ described_class.new(Ryan.new(%Q|class Fancy; ((; end|)).perform }.to raise_error(Racc::ParseError, %r'parse error on value')
       end
     end

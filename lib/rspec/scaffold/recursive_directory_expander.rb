@@ -16,7 +16,7 @@ module RSpec
         # 2. do the recursive expansion of ruby files
         print ">> Recursively scanning #{@input_dir} for ruby files... "
 
-        @ruby_files_in_tree ||= Dir.glob("#{@input_dir}/**/*.rb")
+        @ruby_files_in_tree ||= Dir.glob("#{@input_dir}**/*.rb")
 
         puts "done"
 

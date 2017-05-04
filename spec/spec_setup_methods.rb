@@ -316,3 +316,38 @@ def models_activity_feature_rb_test_scaffold
 
   return string
 end
+
+def models_activity_feature_scope_scaffold1
+  %Q|describe 'Scopes' do\n    describe '.order_by_sequencer_asc' do|
+end
+
+def models_activity_feature_scope_scaffold2
+  %Q|describe '.order_by_sequencer_desc' do|
+end
+
+def model_concern_scaffold
+  string = <<-ENDBAR.unindent
+    # spring rspec
+    describe Model do
+
+      subject { described_class.new  }
+
+      describe 'Scopes' do
+        describe '.scope_name' do
+          xit "should collect TODO" do
+          end
+        end
+
+      end
+
+      describe "#some_class_method" do
+      end
+
+      describe "#some_instance_method" do
+      end
+
+    end
+  ENDBAR
+
+  return string
+end

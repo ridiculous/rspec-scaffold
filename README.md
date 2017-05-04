@@ -1,4 +1,4 @@
-# RSpec Scaffolding [![Build Status](https://travis-ci.org/ridiculous/rspec-scaffold.svg)](https://travis-ci.org/ridiculous/rspec-scaffold)
+# RSpec Scaffold [![Build Status](https://travis-ci.org/ridiculous/rspec-scaffold.svg)](https://travis-ci.org/ridiculous/rspec-scaffold)
 
 Generates RSpec scaffolding for existing code.  
 Cleverly infers spec location from source file location.   
@@ -101,7 +101,7 @@ Outputs to 'spec/models/ability_spec.rb':
 
 ```ruby
 # rspec spec/models/ability_spec.rb
-describe Ability do
+describe Ability, type: :model do
   klass = Ability
   let(:user) {}
 
@@ -121,6 +121,11 @@ describe Ability do
 
 end
 ```
+
+## TODO
+* Have scaffolds be aware of method arguments, especially keyword ones.  
+* Have concern scaffolds output which module it is they are for.  
+* Have concern scaffolds recognize methods defined within `module ClassMethods` as class methods.  
 
 ## Development
 

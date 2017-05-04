@@ -16,14 +16,11 @@ class ActivityFeature < ActiveRecord::Base
 
   validates :image_name, presence: true
 
-  scope :order_by_sequencer_asc, -> { order sequencer: :asc }
-  scope :order_by_sequencer_desc, -> { order sequencer: :desc }
-
-  def self.localized_fields
+  def self.localized_fields(arg1, arg2)
     ["notification"]
   end
 
-  def image
+  def image(arg1, arg2)
     "activity_features/#{image_name}"
   end
 

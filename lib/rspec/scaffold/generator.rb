@@ -75,13 +75,6 @@ module RSpec
         end
 
         def scope_definitions_in_sexp(sexp_or_symbol)
-          # the sexp objects are not uniform, can not rely on specific array structure to exist
-          #begin
-          # binding.pry
-          # sexp1 = [:block, sexp(:call, :include), sexp(:class, :Model, ...)]
-          # sexp2 = [:call, nil, :scope]
-
-          # handling_proc =
           is_a_cope_definition = begin
             sexp_or_symbol.respond_to?(:map) && sexp_or_symbol.to_a[2] == :scope
           rescue
@@ -97,7 +90,7 @@ module RSpec
           elsif sexp_or_symbol.class == Sexp && sexp_or_symbol.size > 1
             # try looping over and going deeper
             sexp_or_symbol.map do |nested_sexp|
-              if nested_sexp.class == Sexp && nested_sexp.size > 1 && nested_sexp[1] == :Model
+              if nested_sexp.class == Sexp && nested_sexp.size > 1 && %i|class module iter|.include?(nested_sexp[0])
                 # there's nested_sexps, go deeper
                 nested_sexp.map do |deep_nested_sexp|
                   scope_definitions_in_sexp(deep_nested_sexp)
@@ -111,7 +104,7 @@ module RSpec
               end
             end
           else
-            # sexp is actually a symbol, do nothing
+            # sexp_or_symbol happends to be a symbol, do nothing
             [nil]
           end
 
