@@ -28,7 +28,7 @@ The gem provides a command line utility `rspec-scaffold` for working with existi
 The idea is to point to existing ruby code files and `rspec-scaffold` will ensure corresponding spec files in `/spec` directory.  
 
 ### The CLI
-Only operates on paths.
+Only handles files/directories. If you want to feed in raw code, use the module methods.  
 
 __file in -> file out__
 
@@ -68,7 +68,7 @@ RSpec::Scaffold.testify_file(filepath, :to_text)
 __3. Provide ruby code file(s) -> get scaffold file(s)__
 
 ```rb
-RSpec::Scaffold.testify_file(filepath, :to_file, "/optional/custom/output/file.rb")  
+RSpec::Scaffold.testify_file(filepath, out: "/optional/custom/output/file.rb")  
 ```
 
 ## Example

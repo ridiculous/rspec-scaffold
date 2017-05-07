@@ -17,7 +17,7 @@ describe RSpec::Scaffold do
     end
   end
 
-  describe ".testify_file(filepath, mode=:to_file)" do
+  describe ".testify_file(filepath, mode=:to_file, out: nil)" do
     let(:path) { FIXTURE_ROOT.join('models/activity_feature.rb').to_s }
     let(:same_dir_spec_path) { path.to_s.gsub(%r'\.rb\z', '_spec.rb') }
     let(:custom_output_path) { RSpec::Scaffold.root.join("spec/fixtures/spec/models/activity_feature_spec.rb").to_s }
@@ -46,7 +46,7 @@ describe RSpec::Scaffold do
 
     end
 
-    context "when passed :to_file mode with an output path" do
+    context "when passed :out keyword argument" do
       it "should puts about where test scaffold was saved to and output to the specified file" do
         FakeFS.with_fresh do
           # this setup makes sure output is only written within this test
@@ -55,7 +55,7 @@ describe RSpec::Scaffold do
 
           expect(STDOUT).to receive(:puts).ordered.with(%r'/rspec-scaffold/spec/fixtures/spec/models/activity_feature_spec.rb')
 
-          expect{@path = described_class.testify_file(path, :to_file, custom_output_path)}.
+          expect{@path = described_class.testify_file(path, out: custom_output_path)}.
             # make custom file
             to change{Pathname.new(custom_output_path).exist?}.from(false).to(true).
             # but do not make the file that would be made if no custom path is given

@@ -67,6 +67,7 @@ describe RSpec::Scaffold::Cli do
 
         it "should output text about creating test scaffold and make the file" do
           expect(STDOUT).to receive(:puts).ordered.with(%r'\+.*?rspec-scaffold/spec/dummy/spec/models/concerns/user/auth_spec.rb')
+          expect(STDOUT).to receive(:puts).ordered.with(%r'All done!\z')
 
           expect{@return = subject}.
             to change{Pathname.new(expected_spec_path).exist?}.from(false).to(true)
@@ -125,12 +126,13 @@ describe RSpec::Scaffold::Cli do
           expect{subject}.to raise_error(SystemExit)
         end
 
-        it "should confirm the acceptance (and create test scaffolds recursively) if entered Y or -y flag is given" do
+        it "should confirm the acceptance (and create test scaffolds for nested files) if entered Y or -y flag is given" do
           allow(cli).to receive(:many_processable_file_danger?).and_return(true)
           allow(STDIN).to receive(:gets).and_return("y")
 
-          expect( STDOUT ).to receive(:puts).ordered.with("done")
-          expect( STDOUT ).to receive(:puts).ordered.with(%r'Many files are about to be processed')
+          # first there is a #print call with a subsequent #puts 'done'
+          expect( STDOUT ).to receive(:puts).ordered.with(%r'done')
+          expect( STDOUT ).to receive(:puts).ordered.with(%r'\A\d+ files are about to be processed')
           expect( STDOUT ).to receive(:puts).ordered.with(%r' Proceeding with scaffold build!')
           expect( STDOUT ).to receive(:puts).with(anything).ordered.at_least(5).times
 

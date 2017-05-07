@@ -27,7 +27,7 @@ module RSpec
 
         # 1. must process path argument to determine whether it is a single file or a dir.
         @processable_files = if file_or_dir.directory?
-          RSpec::Scaffold::RecursiveDirectoryExpander.new(file_or_dir).expand_ruby_files
+          RSpec::Scaffold::DirExpander.new(file_or_dir).expand_ruby_files
         else
           # file_or_dir.file?
           [file_or_dir]
@@ -61,7 +61,7 @@ module RSpec
             spec_file_location = RSpec::Scaffold::SpecLocationBuilder.new(@boot_path, processable_file).spec_location
 
             # output to spec files, core behavior
-            RSpec::Scaffold.testify_file(processable_file, :to_file, spec_file_location)
+            RSpec::Scaffold.testify_file(processable_file, out: spec_file_location)
           end
         end
 

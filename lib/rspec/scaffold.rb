@@ -11,7 +11,7 @@ module RSpec
     autoload :ConditionExhibit, "rspec/scaffold/condition_exhibit"
     autoload :FileWriter, "rspec/scaffold/file_writer"
     autoload :Generator, "rspec/scaffold/generator"
-    autoload :RecursiveDirectoryExpander, "rspec/scaffold/recursive_directory_expander"
+    autoload :DirExpander, "rspec/scaffold/dir_expander"
     autoload :Runner, "rspec/scaffold/runner"
     autoload :SpecLocationBuilder, "rspec/scaffold/spec_location_builder"
     autoload :Version, "rspec/scaffold/version"
@@ -30,7 +30,7 @@ module RSpec
 
     # RSpec::Scaffold.testify_file(filepath)
     # mode = :to_file, :to_text
-    def self.testify_file(filepath, mode=:to_text, output_file=nil)
+    def self.testify_file(filepath, mode=:to_text, out: nil)
       begin
         test_scaffold = RSpec::Scaffold::Generator.new(Ryan.new(filepath)).perform
       rescue => e
@@ -40,14 +40,18 @@ module RSpec
 
       scaffold_text = test_scaffold.join("\n")
 
-      case mode
-      when :to_file
-        output_filename = (output_file.nil? ? filepath.sub(%r'\.rb\z', '_spec.rb') : output_file)
-        return RSpec::Scaffold::FileWriter.new(output_filename, scaffold_text).write!
-      when :to_text
-        return scaffold_text
+      if out
+        return RSpec::Scaffold::FileWriter.new(out, scaffold_text).write!
       else
-        raise("Unrecognized mode")
+        case mode
+        when :to_file
+          output_filename = filepath.sub(%r'\.rb\z', '_spec.rb')
+          return RSpec::Scaffold::FileWriter.new(output_filename, scaffold_text).write!
+        when :to_text
+          return scaffold_text
+        else
+          raise("Unrecognized mode")
+        end
       end
     end
 
