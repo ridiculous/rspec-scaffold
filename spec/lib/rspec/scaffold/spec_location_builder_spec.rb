@@ -29,6 +29,15 @@ describe RSpec::Scaffold::SpecLocationBuilder do
       it { is_expected.to eq project_root.join("spec/lib/external/google_spec.rb").to_s }
     end
 
+    context "when initialized with tricky live values" do
+      let(:boot_path) { Pathname.new("/home/augusts/Documents/sample_app") }
+      let(:processable_file) { "/home/augusts/Documents/sample_app/lib/data/account_content.rb" }
+
+      it "should equal absolute path starting in users home directory" do
+        expect(described_class.new(boot_path, processable_file).spec_location.to_s).to eq "/home/augusts/Documents/sample_app/spec/lib/data/account_content_spec.rb"
+      end
+    end
+
   end
 
 end

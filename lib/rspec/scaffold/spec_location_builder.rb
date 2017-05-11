@@ -18,7 +18,7 @@ module RSpec
           # replace first 'app/' with 'spec/' and change ending a bit
           @project_root.join(@relative_file_path.sub(%r'\A/?app/', 'spec/'))
         else
-          @project_root.join("spec").join(@relative_file_path)
+          @project_root.join("spec").join(@relative_file_path.to_s.sub(%r'\A/', ''))
         end.sub(%r'\.rb\z', '_spec.rb')
 
         return @spec_location

@@ -47,7 +47,6 @@ module RSpec
 
         # 2. once path processing is done, array of files (sometimes and array of one file) is looped over
         @processable_files.each do |processable_file|
-
           # all is set for processing
           if output_to_console?
             test_scaffold = RSpec::Scaffold.testify_file(processable_file, :to_text)

@@ -23,6 +23,7 @@ module RSpec
         File.open(@output_file, 'wb') do |f| # 'wb' originally
           f << @output_text
         end
+
         RSpec::Scaffold.log("+ #{@output_file}")
 
         return @output_file.to_s

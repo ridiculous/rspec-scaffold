@@ -16,7 +16,7 @@ module RSpec
         # 2. do the expansion of ruby files
         print ">> scanning #{@input_dir} tree for ruby files... "
 
-        @ruby_files_in_tree ||= Dir.glob("#{@input_dir}/**/*.rb")
+        @ruby_files_in_tree ||= Dir.glob("#{@input_dir.to_s.gsub(%r'/\z', '')}/**/*.rb")
 
         puts "done"
 

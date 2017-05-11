@@ -40,7 +40,7 @@ module RSpec
 
       scaffold_text = test_scaffold.join("\n")
 
-      if out
+      if out # pre-empts :mode and infers :to_file
         return RSpec::Scaffold::FileWriter.new(out, scaffold_text).write!
       else
         case mode

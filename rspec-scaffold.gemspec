@@ -25,12 +25,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'luks'# , '~> 1.6'
   spec.add_dependency 'ryan', '~> 1.1.0'
 
-  spec.add_dependency "pry", "~> 0.10.4" # made dev dep after CLI is done
-
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", ">= 3.2", "< 4"
-  # spec.add_development_dependency "pry", "~> 0.10.4"
+  spec.add_development_dependency "pry", "~> 0.10.4"
   spec.add_development_dependency "simplecov", "~> 0.13.0"
   spec.add_development_dependency "fakefs", "~> 0.11.0" # fakes filesystem, useful for testing file outputs.
 end
