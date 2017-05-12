@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'rspec/scaffold'
+RSpec::Scaffold::Cli.new(Pathname(`pwd`.strip)).start

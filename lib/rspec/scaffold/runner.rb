@@ -8,14 +8,18 @@ module RSpec
         @file = Pathname.new(file) if file
       end
 
+      # V1, DEPRECATED
       def perform
         fail ArgumentError, %Q(File or directory does not exist: "#{file}") if !File.exists?(file) && !File.exists?("#{file}.rb")
+
         ruby_files.each do |ruby_file|
           rspec_file = Pathname.new(spec_file(ruby_file))
           spec_file_path = rspec_file.to_s[%r|/(spec/.+)|, 1]
-          next if rspec_file.exist?.tap { |exists| log "- #{spec_file_path} - already exists", :gray if exists }
+          next if rspec_file.exist?.tap { |exists| log "- #{spec_file_path} - already exists", :puts if exists }
+
           spec = generate_spec(Pathname.new(File.expand_path(ruby_file)))
           next unless spec
+
           log "+ #{spec_file_path}"
           FileUtils.mkdir_p(rspec_file.parent)
           File.open(rspec_file, 'wb') do |f|
@@ -24,13 +28,13 @@ module RSpec
         end
       end
 
+      # @param [String/Pathname] ruby
       def generate_spec(ruby)
         ryan = Ryan.new(ruby)
         if ryan.funcs.any?
-          spec = RSpec::Scaffold::Generator.new
-          spec.perform ryan
+          RSpec::Scaffold::Generator.new(ryan).perform
         else
-          log "- #{truncate(ruby)} - no methods", :gray
+          log "- #{truncate(ruby)} - no methods", :puts
           nil
         end
       rescue => e
@@ -75,7 +79,7 @@ module RSpec
       end
 
       def log(msg = nil, color = :green)
-        HighLine.new.say %Q(  <%= color('#{msg}', :#{color}) %>)
+        return RSpec::Scaffold.log(msg, color)
       end
     end
   end
