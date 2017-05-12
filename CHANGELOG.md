@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased, 2.0.0.beta1] - 2017-02-19
+## [2.0.0.beta1] - 2017-05-12
 ### Added
 - Convenience methods `RSpec::Scaffold.testify_file` and `RSpec::Scaffold.testify_text` which allow making scaffolds from within code.
 - rspec-scaffold CLI
