@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email   = ["arebuckley@gmail.com"]
 
   spec.summary     = %q{Generates RSpec scaffolding for existing code}
-  spec.description = %q{Generates RSpec scaffolding for conditions and ivar assignments}
+  spec.description = %q{Generates test files based on your codes logic, setting up the initialization args and nested context blocks}
   spec.homepage    = "https://github.com/ridiculous/rspec-scaffold"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
