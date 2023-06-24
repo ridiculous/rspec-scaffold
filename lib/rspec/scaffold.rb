@@ -3,7 +3,6 @@ require "delegate"
 #require "rspec"
 require "ryan"
 require "luks"
-require 'pry'
 
 module RSpec
   module Scaffold

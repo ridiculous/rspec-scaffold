@@ -109,7 +109,7 @@ describe RSpec::Scaffold do
 
       it "should return the error message" do
         allow(STDOUT).to receive(:puts)
-        expect(subject).to eq "parse error: (string):1 :: parse error on value [\"end\", 1] (kEND)"
+        expect(subject).to eq "parse error: (string):1 :: parse error on value \"end\" (kEND)"
       end
     end
 
