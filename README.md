@@ -11,7 +11,7 @@ Requires Ruby >= 1.9.3
 __1. update gemfile and bundle__
 
 ```ruby
-gem 'rspec-scaffold', '~> 2.0.0.beta1', require: false
+gem 'rspec-scaffold', '~> 2.0.0', require: false
 ```
 
 __2. see if it works__
