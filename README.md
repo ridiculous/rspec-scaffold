@@ -1,4 +1,4 @@
-# RSpec Scaffold [![Build Status](https://travis-ci.org/ridiculous/rspec-scaffold.svg)](https://travis-ci.org/ridiculous/rspec-scaffold)
+# RSpec Scaffold [![Gem Version](https://badge.fury.io/rb/rspec-scaffold.svg)](https://badge.fury.io/rb/rspec-scaffold)
 
 Generates RSpec scaffolding for existing code.  
 Cleverly infers spec location from source file location.   
